@@ -6,10 +6,27 @@ const router = express.Router()
 router.get('/', async (req, res, next) => {
     try {
         const coffeeItem = await Coffee.find({})
-        res.json({coffeeItem})
+        const response = {
+            count: coffeeItem.length,
+            coffeeItem: coffeeItem
+        }
+        res.json({response})
     } catch (error) {
         next(error)
     }
+})
+
+router.get('/all', (req, res, next) =>{
+    Coffee.find({})
+    .exec()
+    .then(data => {
+        res.json({
+            data
+        })
+    })
+    .catch(error => {
+        res.json({error})
+    })
 })
 
 router.get('/:id', async (req, res, next) => {

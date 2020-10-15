@@ -3,9 +3,9 @@ const Schema = mongoose.Schema
 
 const coffeeSchema = new Schema(
     {
-        "name": String,
-        "price": Number,
-        "tableOrdered": Number,
+        "name": { type: String, required: true },
+        "price": { type: Number, required: true},
+        "tableOrdered": { type: String, required: true}
     },
     {
         versionKey: false,
