@@ -19,10 +19,7 @@ router.get('/', async (req, res, next) => {
 router.get('/:name', async(req, res,next) => {
     let {name} = req.params
     try {   
-        let response = await Cake.aggregate([
-            { $match: {name}},
-            { $unwind: "$name"}
-        ])
+        let response = await Cake.findOne({ name })
         res.json({
             response
         })
@@ -31,6 +28,13 @@ router.get('/:name', async(req, res,next) => {
             'msg': `can not fetch ${name}`
         })
     }
+    // Cake.findOne({ name })
+    //     .then(data => {
+    //         res.json(data)
+    //     })
+    //     .catch(err => {
+    //         res.json(err)
+    //     })
 })
 
 router.post('/', async (req, res, next) => {
