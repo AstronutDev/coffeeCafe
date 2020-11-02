@@ -28,13 +28,6 @@ router.get('/:name', async(req, res,next) => {
             'msg': `can not fetch ${name}`
         })
     }
-    // Cake.findOne({ name })
-    //     .then(data => {
-    //         res.json(data)
-    //     })
-    //     .catch(err => {
-    //         res.json(err)
-    //     })
 })
 
 router.post('/', async (req, res, next) => {
@@ -51,7 +44,40 @@ router.post('/', async (req, res, next) => {
         console.log(err);
         next(err)
     }
+})
 
+router.put('/:productName', async(req, res, next) => {
+    let {productName} = req.params
+    let {name, price} = req.body
+    try {
+        Cake.updateOne( {productName} , {
+            $set: {
+                name,
+                price
+            }
+        })
+        res.json({
+            'msg': 'updated success'
+        })
+    } catch (error) {
+        res.status(400).json({
+            'error': 'updated fail'
+        })
+    }
+})
+
+router.delete('/:productName', async(req, res, next) => {
+    let {productName} = req.params
+    try {
+        await Cake.remove({ name: productName })
+        res.json({
+            'msg': `delete ${productName} success`
+        })
+    } catch (error) {
+        res.status(400).json({
+            'error': 'delete fail'
+        })
+    }
 })
 
 module.exports = router
