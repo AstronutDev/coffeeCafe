@@ -2,6 +2,7 @@ const express = require('express');
 
 const coffee = require('./coffees');
 const order = require('./orders')
+const cake = require('./cakes')
 
 const router = express.Router();
 
@@ -20,5 +21,6 @@ router.get('/test', (req, res, next) => {
 
 router.use('/coffees', coffee)
 router.use('/orders', order)
+router.use('/cakes', cake)
 
 module.exports = router;
