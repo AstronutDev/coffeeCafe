@@ -10,13 +10,28 @@ router.get('/', async (req, res, next) => {
         }
         res.json(data)
     } catch (error) {
-        console.log(err);
-        next(err)
+        res.json({
+            'msg': 'can not fetch data'
+        })
     }
 })
 
-router.get('/test', (req, res, next) => {
-    res.send('test')
+router.get('/:name', async(req, res,next) => {
+    let {name} = req.params
+    try {
+        let cakeSelected = Cake.find({ name })
+        console.log(cakeSelected);
+        let resonse = {
+            cakeSelected
+        }
+        res.json({
+            resonse
+        })
+    } catch (error) {
+        res.status(404).json({
+            'msg': `can not fetch ${name}`
+        })
+    }
 })
 
 router.post('/', async (req, res, next) => {
