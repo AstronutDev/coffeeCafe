@@ -50,12 +50,14 @@ router.put('/:productName', async(req, res, next) => {
     let {productName} = req.params
     let {name, price} = req.body
     try {
-        Cake.updateOne( {productName} , {
+        const updated = {
             $set: {
                 name,
                 price
             }
-        })
+        }
+
+        await Cake.updateOne( {name: productName}, updated)
         res.json({
             'msg': 'updated success'
         })
