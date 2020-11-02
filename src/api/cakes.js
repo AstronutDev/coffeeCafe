@@ -18,14 +18,13 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:name', async(req, res,next) => {
     let {name} = req.params
-    try {
-        let cakeSelected = Cake.find({ name })
-        console.log(cakeSelected);
-        let resonse = {
-            cakeSelected
-        }
+    try {   
+        let response = await Cake.aggregate([
+            { $match: {name}},
+            { $unwind: "$name"}
+        ])
         res.json({
-            resonse
+            response
         })
     } catch (error) {
         res.status(404).json({
