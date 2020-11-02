@@ -16,10 +16,10 @@ router.get('/', async (req, res, next) => {
     }
 })
 
-router.get('/:name', async(req, res,next) => {
-    let {name} = req.params
-    try {   
-        let response = await Cake.findOne({ name })
+router.get('/:id', async(req, res,next) => {
+    let {id} = req.params
+    try {  
+        let response = await Cake.findById(id)
         res.json({
             response
         })
@@ -46,8 +46,8 @@ router.post('/', async (req, res, next) => {
     }
 })
 
-router.put('/:productName', async(req, res, next) => {
-    let {productName} = req.params
+router.put('/:id', async(req, res, next) => {
+    let {id} = req.params
     let {name, price} = req.body
     try {
         const updated = {
@@ -57,7 +57,7 @@ router.put('/:productName', async(req, res, next) => {
             }
         }
 
-        await Cake.updateOne( {name: productName}, updated)
+        await Cake.findByIdAndUpdate( id, updated)
         res.json({
             'msg': 'updated success'
         })
@@ -68,12 +68,12 @@ router.put('/:productName', async(req, res, next) => {
     }
 })
 
-router.delete('/:productName', async(req, res, next) => {
-    let {productName} = req.params
+router.delete('/:id', async(req, res, next) => {
+    let {id} = req.params
     try {
-        await Cake.remove({ name: productName })
+        await Cake.findByIdAndDelete(id)
         res.json({
-            'msg': `delete ${productName} success`
+            'msg': `delete ${id} success`
         })
     } catch (error) {
         res.status(400).json({
