@@ -12,7 +12,10 @@ router.get('/', (req, res) => {
 });
 
 router.get('/test', (req, res, next) => {
-  res.send('testpath')
+  res.json({
+    "name": "s",
+    "age": 23
+  })
 })
 
 router.use('/coffees', coffee)
