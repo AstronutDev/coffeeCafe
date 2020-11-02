@@ -15,6 +15,10 @@ router.get('/', async (req, res, next) => {
     }
 })
 
+router.get('/test', (req, res, next) => {
+    res.send('test')
+})
+
 router.post('/', async (req, res, next) => {
     let {name, price} = req.body
     try {
