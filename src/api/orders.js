@@ -1,14 +1,15 @@
 const express = require('express')
-const { model } = require('../models/CofffeeModel')
 const router = express.Router()
 
 const OrderDetail = require('../models/OrderDetailModel')
-const Coffee = require('../models/CofffeeModel')
-const { response } = require('express')
+const Order = require('../models/Order')
 
-router.get('/', (req, res, next) => {
-    OrderDetail.find()
-    .populate({ path: 'coffeeId', select: 'name price'})
+router.get('/', async (req, res, next) => {
+    const orders = await Order.find()
+    .populate({ 
+        path: 'orderDetailIds',
+        populate: "coffeeId"
+    })
     .exec()
     .then(docs => {
         res.json({
@@ -39,29 +40,18 @@ router.get('/:orderId', (req, res, next) => {
 })
 
 
-router.post('/', (req, res, next) => {
-    Coffee.findById(req.body.coffeeId)
-        .then(coffee => {
-            const newOrder = new OrderDetail({
-                amount: req.body.amount,
-                coffeeId: req.body.coffeeId
-            })
-            return newOrder.save()
+router.post('/', async (req, res, next) => {
+    let { products } = req.body
+    try {
+        const createdOrderDetails = await OrderDetail.create(products)
+        const createdOrder = await Order.create({
+            orderDetailIds: createdOrderDetails.map( ({_id}) => _id)
         })
-        .then(result => {
-            res.json({
-                'message': 'order stored',
-                createdOrder: {
-                    amount: result.amount,
-                    coffeeId: result.coffeeId
-                }
-            })
-        })
-        .catch(error => {
-            res.status(404).json({
-                'message': 'coffee not found'
-            })
-        })
+        console.log(createdOrderDetails);
+        res.json({ createdOrder })
+    } catch (err) {
+        next(err)
+    }
 })
 
 

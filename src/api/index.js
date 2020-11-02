@@ -11,6 +11,10 @@ router.get('/', (req, res) => {
   });
 });
 
+router.get('/test', (req, res, next) => {
+  res.send('testpath')
+})
+
 router.use('/coffees', coffee)
 router.use('/orders', order)
 
