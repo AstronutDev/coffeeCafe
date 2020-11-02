@@ -5,5 +5,5 @@ const option = {
     useUnifiedTopology: true
 }
 
-mongoose.connect('mongodb://localhost:27017/spockCafe', option)
-// mongoose.connect( "mongodb+srv://root:root@cluster0.l6dmp.mongodb.net/cafe?retryWrites=true&w=majority", option)
+// mongoose.connect('mongodb://localhost:27017/spockCafe', option)
+mongoose.connect( "mongodb+srv://root:root@cluster0.l6dmp.mongodb.net/cafe?retryWrites=true&w=majority", option)
